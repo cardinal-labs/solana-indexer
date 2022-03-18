@@ -76,7 +76,7 @@ pub(crate) struct SharedData {
 }
 
 fn main() {
-    indexer_core::run(|| {
+    indexer_core::run(indexer_core::env_subscriber, || {
         let Opts {
             server: ServerOpts { port },
             twitter_bearer_token,

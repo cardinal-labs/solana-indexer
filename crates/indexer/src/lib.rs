@@ -50,7 +50,7 @@ mod runtime {
 
     /// Entrypoint for `metaplex-indexer` binaries
     pub fn run<T: Debug + Args, F: Future<Output = Result<()>>>(f: impl FnOnce(T, Pool) -> F) -> ! {
-        indexer_core::run(|| {
+        indexer_core::run(indexer_core::env_subscriber, || {
             let opts = Opts::parse();
 
             debug!("{:#?}", opts);

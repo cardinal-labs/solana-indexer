@@ -22,6 +22,7 @@ RUN cargo build --profile docker \
   --features " \
     metaplex-indexer/accountsdb, \
     metaplex-indexer/http \
+    metaplex-indexer-graphql/prometheus \
   " \
   --bin metaplex-indexer-accountsdb \
   --bin metaplex-indexer-http \
