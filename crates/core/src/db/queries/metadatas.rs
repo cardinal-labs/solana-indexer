@@ -106,7 +106,7 @@ pub fn list(
             attributes
                 .into_iter()
                 .fold(query, |acc, AttributeFilter { trait_type, values }| {
-                    acc.filter(
+                    acc.or_filter(
                         attributes::trait_type
                             .eq(trait_type)
                             .and(attributes::value.eq(any(values))),
@@ -132,7 +132,7 @@ pub fn list(
             .filter(listing_receipts::canceled_at.is_null());
     }
 
-    let rows: Vec<Nft> = query
+    let query = query
         .select((
             metadatas::address,
             metadatas::name,
@@ -143,11 +143,10 @@ pub fn list(
             metadata_jsons::image,
         ))
         .distinct()
-        .order(metadatas::address.asc())
         .limit(limit)
-        .offset(offset)
-        .load(conn)
-        .context("failed to load nft(s)")?;
+        .offset(offset);
+
+    let rows: Vec<Nft> = query.load(conn).context("failed to load nft(s)")?;
 
     Ok(rows)
 }
